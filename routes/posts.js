@@ -87,6 +87,21 @@ router.get("/:id", async (req, res) => {
   }
 }); 
 
+//upload image
+app.post('/upload', (req, res) => {
+  const file = req.files.file;
+  const fileName = Date.now() + file.name;
+
+  file.mv('uploads/' + fileName, (err) => {
+    if (err) {
+      console.error('Error uploading file:', err);
+      res.status(500).send('File upload failed');
+    } else {
+      res.send({ fileName });
+    }
+  });
+});
+
 router.get("/getAllPosts", async (req, res) => {
   try {
     const posts = await Post.find({});
