@@ -39,6 +39,14 @@ const PostSchema = new mongoose.Schema(
         type: Number,
         default: 0,
     },
+    cookTime: {
+        type: Number,
+        default: 0,
+    },
+    servings: {
+        type: Number,
+        default: 0,
+    },
   },
   { timestamps: true }
 );
