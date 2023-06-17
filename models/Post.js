@@ -7,9 +7,8 @@ const PostSchema = new mongoose.Schema(
         required: true,
     },
     instructions: {
-        type: String,
+        type: Array,
         required: true,
-        max: 500,
     },
     title: {
         type: String,
@@ -18,10 +17,6 @@ const PostSchema = new mongoose.Schema(
     },
     ingredients: {
         type: Array,
-        required: true,
-    },
-    category: {
-        type: String,
         required: true,
     },
     img: {
