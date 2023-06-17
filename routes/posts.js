@@ -12,11 +12,12 @@ router.post("/", async (req, res) => {
   }
 });
 //create a comment
-router.put("/:id/comment", async (req, res) => {
+router.post("/:id/comment", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    await post.updateOne({ $push: { comments: req.body } });
-    res.status(200).json("The comment has been added");
+    post.comments.push(req.body);
+    await post.save();
+    res.status(200).json(post);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -46,6 +47,7 @@ router.put("/:id", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 // Delete a post
 router.delete("/:id", async (req, res) => {
   try {
