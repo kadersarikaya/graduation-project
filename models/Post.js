@@ -19,7 +19,7 @@ const PostSchema = new mongoose.Schema(
         type: Array,
         required: true,
     },
-    img: {
+    thumbnail: {
         type: String,
         default: "",
     },
