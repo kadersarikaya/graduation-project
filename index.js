@@ -33,13 +33,14 @@ app.use(morgan("common"));
 
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images");
-  },
-  filename:(req, file, cb) => {
-    cb(null, req.body.name);
-  },
+  destination: 'public/images/', // Specify the destination folder where files will be stored
+  filename: function (req, file, cb) {
+    // Generate a unique filename for the uploaded file
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
+  }
 });
+
 
 const upload = multer({storage});
 app.post('/api/upload', upload.single('file'), (req, res) => {
