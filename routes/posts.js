@@ -77,6 +77,15 @@ router.put("/:id/like", async (req, res) => {
     res.status(500).json(err);
   }
 });
+// get all posts
+router.get("/getAllPosts", async (req, res) => {
+  try {
+    const posts = await Post.find({});
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 // Get a post
 router.get("/:id", async (req, res) => {
   try {
@@ -97,14 +106,6 @@ router.get("/profile/:id", async (req, res) => {
   }
 });
 
-// get all posts
-router.get("/getAllPosts", async (req, res) => {
-  try {
-    const posts = await Post.find({});
-    res.status(200).json(posts);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+
 
 module.exports = router;
