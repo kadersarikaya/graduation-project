@@ -87,6 +87,17 @@ router.get("/:id", async (req, res) => {
   }
 }); 
 
+//get user's posts according to id
+router.get("/profile/:id", async (req, res) => {
+  try {
+    const posts = await Post.find({userId:req.params.id});
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// get all posts
 router.get("/getAllPosts", async (req, res) => {
   try {
     const posts = await Post.find({});
