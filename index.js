@@ -47,12 +47,18 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 app.post('/api/upload', upload.single('file'), (req, res) => {
   try {
-    return res.status(200).json('File uploded successfully');
-  }
-  catch (error) {
+    if (!req.file) {
+      return res.status(400).json('No file uploaded');
+    }
+
+    const filePath = req.file.path.replace(/\\/g, '/'); // Replace backslashes with forward slashes in file path
+
+    return res.status(200).json({ filePath });
+  } catch (error) {
     console.error(error);
+    return res.status(500).json('Server error');
   }
-})
+});
 
 
 app.use("/api/users", userRoute)
