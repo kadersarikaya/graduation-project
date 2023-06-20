@@ -33,34 +33,25 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(cors());
 
-
 const storage = multer.diskStorage({
-  destination: 'public/images/', // Specify the destination folder where files will be stored
-  filename: function (req, file, cb) {
-    // Generate a unique filename for the uploaded file
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, file.fieldname + '-' + uniqueSuffix);
-  }
+  destination: (req, file, cb) => {
+    cb(null, "public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.body.name);
+  },
 });
 
-
-const upload = multer({storage});
+const upload = multer({storage: storage});
 app.post('/api/upload', upload.single('file'), (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json('No file uploaded');
-    }
-
-    const filePath = req.file.path.replace(/\\/g, '/'); // Replace backslashes with forward slashes in file path
-
-    return res.status(200).json({ filePath });
+   try {
+    return res.status(200).json("File uploded successfully");
   } catch (error) {
     console.error(error);
-    return res.status(500).json('Server error');
   }
 });
 
-
+ 
 app.use("/api/users", userRoute)
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
