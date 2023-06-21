@@ -38,16 +38,19 @@ const storage = multer.diskStorage({
     cb(null, "public/images");
   },
   filename: (req, file, cb) => {
-    cb(null, req.body.name);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const fileExtension = path.extname(file.originalname);
+    cb(null, uniqueSuffix + fileExtension);
   },
 });
 
-const upload = multer({storage: storage});
+const upload = multer({ storage: storage });
 app.post('/api/upload', upload.single('file'), (req, res) => {
-   try {
-    return res.status(200).json("File uploded successfully");
+  try {
+    return res.status(200).json("File uploaded successfully");
   } catch (error) {
     console.error(error);
+    return res.status(500).json("Error uploading file");
   }
 });
 
